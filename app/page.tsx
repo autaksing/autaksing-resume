@@ -1,0 +1,46 @@
+const metrics = [
+  ["10年+", "內容創作及影視製作經驗"], ["88.6萬", "孵化帳號最高粉絲規模"],
+  ["2000萬+", "單條作品最高播放量"], ["1000萬+", "孵化帳號全平台累計點讚"],
+];
+
+const experiences = [
+  {year:"2013—2014",company:"賽鉑互動",note:"廣東省廣告集團子公司 · 本土4A",role:"新媒體策劃",detail:"負責新媒體內容策劃、品牌傳播創意策劃、全案項目執行與落地。"},
+  {year:"2014—2016",company:"歐氏兄弟影視工作室",note:"聯合創辦",role:"聯合創始人",detail:"負責企業宣傳片拍攝、創意短片策劃與製作、活動影片拍攝與製作、客戶項目溝通與執行。"},
+  {year:"2016—至今",company:"聲輝傳媒",note:"影視工作室 2.0",role:"聯合創始人 · 內容負責人",detail:"聚焦原創內容、創作者IP孵化及品牌內容營銷；負責內容與創意方向、導演與拍攝、後期包裝、帳號孵化、短影片與直播營運、項目統籌及客戶溝通。"},
+];
+
+const cases = [
+  {no:"01",href:"/cases/anzai",name:"「單身狗」安仔",type:"原創人物 IP",claim:"「從一首傳播作品建立一套持續營運的人物內容體系」",detail:"參與原創人物IP創意策劃、拍攝及後期製作，打造原創人物IP並持續營運帳號；內容在多平台傳播，並成功完成從公眾號時代向短影片時代的遷移。",stats:[{value:"1120萬+",label:"單條最高播放量"}],images:[{src:"/images/anzai-account.jpg",alt:"梁景安安仔抖音帳號主頁及作品數據"},{src:"/images/anzai-hit.jpg",alt:"單身狗安仔爆款作品頁面及互動數據"},{src:"/images/anzai-history.jpg",alt:"單身狗作品在微信公眾號時代的傳播報道"}],tags:["IP規劃","內容策略","拍攝執行","後期製作"]},
+  {no:"02",href:"/cases/tang",name:"湯不唱",type:"音樂帳號孵化",claim:"「用特點與熱點建立可持續的內容方向」",detail:"參與帳號從0開始孵化，負責內容定位、創意策劃、拍攝製作及營運；策劃疫情露台演唱會，以真實場景和情緒價值創造傳播熱點。",stats:[{value:"0 → 70萬",label:"三個月粉絲增長"}],images:[{src:"/images/tang-account.jpg",alt:"湯不唱抖音帳號主頁及88.6萬粉絲數據"},{src:"/images/tang-grid.jpg",alt:"湯不唱系列作品矩陣及點讚數據"},{src:"/images/tang-hit.jpg",alt:"湯不唱小區演唱會爆款作品互動數據"}],tags:["帳號營運","內容策劃","影片導演","拍攝剪輯"]},
+  {no:"03",href:"/cases/chen",name:"陳柏曦",type:"藝人品牌打造",claim:"「以港風電影感與街頭 Live 形成長期品牌識別」",detail:"參與帳號孵化，負責內容策劃、拍攝製作及直播營運；統一港風電影感、音樂風格與人物氣質，打造復古港風戶外直播。",stats:[{value:"1萬+",label:"直播最高同時在線人數"},{value:"5萬+",label:"場均直播音浪"}],images:[{src:"/images/chen-stage.jpg",alt:"陳柏曦舞台演出形象照"},{src:"/images/chen-live.jpg",alt:"陳柏曦復古街頭直播及萬人在線畫面"},{src:"/images/chen-account.jpg",alt:"陳柏曦帳號主頁及代表作品數據"}],tags:["品牌定位","內容策略","直播營運","視覺統一"]},
+];
+
+function ArrowIcon(){return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8"/></svg>}
+function TrendArrow(){return <svg className="trend-arrow" viewBox="0 0 54 18" aria-hidden="true"><path d="M2 9h45M39 2l8 7-8 7"/></svg>}
+function MailIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m4 7 8 6 8-6"/></svg>}
+function PhoneIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.3 3.8 4.7 6.4c-.8.8.1 4.1 3.5 7.5s6.7 4.3 7.5 3.5l2.6-2.6-3.4-2.2-1.6 1.6c-1.3-.5-3-2.2-3.5-3.5l1.6-1.6-2.1-3.3Z"/></svg>}
+
+export default function Home() {
+  return <main>
+    <nav className="nav" aria-label="主導航"><a className="brand" href="#top" aria-label="返回頂部">AUTAKSING<span>.</span></a><div className="nav-links"><a href="#about">關於</a><a href="#experience">經歷</a><a href="#cases">案例</a><a className="nav-contact" href="mailto:autaksing0117@gmail.com">聯繫我 <ArrowIcon/></a></div></nav>
+
+    <section className="hero" id="top"><div className="hero-index" aria-hidden="true">01</div><div className="hero-orbit" aria-hidden="true"><span>CONTENT</span><span>CREATOR</span><span>GROWTH</span></div><div className="hero-name"><p className="eyebrow light hero-discipline">Content Strategy · Production<br/>Creator Growth</p><h1>歐德星</h1><p className="roman">AU TAK SING</p></div><div className="hero-copy"><p className="hero-lead">把創意變成真正<br/>有傳播力的內容</p><p className="hero-roles">內容策略 <i/> 內容製作 <i/> 創作者孵化</p><div className="hero-actions"><a href="#cases">查看代表案例 <span>↓</span></a><div className="hero-contacts"><a href="mailto:autaksing0117@gmail.com"><MailIcon/><span>autaksing0117@gmail.com</span></a><a href="tel:+85266234042"><PhoneIcon/><span>+852 6623 4042</span></a></div></div></div><p className="hero-foot">香港永久居民 · 粵語 / 普通話 / 英語</p></section>
+
+    <section className="about" id="about"><div className="section-heading"><p className="eyebrow">02 / About</p><h2>不止製作內容<br/>更懂內容</h2><p className="heading-translation">Beyond content production<br/>I understand what makes content work</p></div><figure className="about-portrait"><img src="/images/profile-about.jpg" alt="歐德星個人形象照"/><figcaption>AU TAK SING · CONTENT CREATOR</figcaption></figure><div className="about-copy"><div className="about-paragraph"><span aria-hidden="true">1</span><p>擁有10年以上內容創作及影視製作經驗，長期參與原創IP打造、創作者帳號孵化及短影片內容營運，具備從內容定位、創意策劃、拍攝製作到帳號營運的完整經驗。</p></div><div className="about-paragraph"><span aria-hidden="true">2</span><p>曾參與打造多個具有代表性的原創人物IP及創作者帳號，覆蓋原創內容、劇情、音樂、直播等不同賽道，成功打造多個高傳播、高互動內容案例，並建立持續營運的內容體系。</p></div><div className="about-paragraph"><span aria-hidden="true">3</span><p>熟悉抖音、小紅書、微信視頻號、B站等內容生態，具備數據驅動的內容優化能力，同時持續關注AI在內容創作、營運效率及產品創新中的應用。</p></div></div></section>
+
+    <section className="metrics" aria-label="核心成績">{metrics.map(([value,label],index)=><article className="metric" key={value}><span className="metric-no">0{index+1}</span><strong>{value}</strong><p>{label}</p></article>)}</section>
+    <div className="marquee" aria-hidden="true"><div>BUILD CREATOR BRANDS · BUILD CREATOR BRANDS · BUILD CREATOR BRANDS ·</div></div>
+
+    <section className="experience" id="experience"><div className="experience-head"><p className="eyebrow light-on-dark">03 / Experience</p><h2>十餘年持續拓展<br/>內容工作的邊界</h2><p className="experience-intro">從廣告策劃到獨立製作再到內容負責人<br/>角色在變化但始終圍繞內容的傳播價值</p></div><div className="timeline">{experiences.map((item,index)=><article className="timeline-item" key={item.year}><span className="timeline-index">0{index+1}</span><p className="timeline-year">{item.year}</p><div><h3>{item.company}</h3><p className="timeline-note">{item.note}</p><p className="timeline-role">{item.role}</p><p className="timeline-detail">{item.detail}</p></div></article>)}</div></section>
+
+    <section className="cases" id="cases"><header className="cases-head"><p className="eyebrow">04 / Selected Cases</p><h2>把一次內容機會<br/>轉化為長期品牌資產</h2><p>代表項目覆蓋原創人物IP、音樂帳號和藝人品牌，驗證內容方法在不同賽道的可遷移性。</p></header><div className="case-list">{cases.map(item=><article className="case" key={item.no}><div className="case-top"><span className="case-no">CASE {item.no}</span><span className="case-type">{item.type}</span></div><div className="case-main"><div><h3>{item.name}</h3><p className="case-claim">{item.claim}</p><p className="case-detail">{item.detail}</p></div><div className={`case-stats ${item.no==="03"?"combined":""}`}>{item.stats.map(stat=><div className="case-stat" key={stat.value}><strong>{stat.value==="0 → 70萬"?<span className="stat-transition"><b>0</b><TrendArrow/><b>70萬</b></span>:stat.value}</strong><span>{stat.label}</span></div>)}</div></div><div className="case-gallery">{item.images.map((image,index)=><figure key={image.src}><img src={image.src} alt={image.alt}/><figcaption>{String(index+1).padStart(2,"0")}</figcaption></figure>)}</div><p className="case-role-intro">整個項目中，我參與了</p><div className="case-tags">{item.tags.map(tag=><span key={tag}>{tag}</span>)}</div><a className="case-detail-link" href={item.href}>案例詳情 <ArrowIcon/></a></article>)}</div>
+      <div className="more-projects"><p className="eyebrow">More Creator Projects</p><div className="more-project-grid"><article className="more-project-card image-right"><div className="more-project-copy"><span>劇情帳號</span><h3>福福是個戲精</h3><p>負責帳號定位、內容策劃、影片拍攝、後期製作，最終9.3萬粉絲。</p><a className="case-detail-link" href="/cases/fufu">案例詳情 <ArrowIcon/></a></div><div className="more-project-image"><img src="/images/fuma-account.jpg" alt="福福是個戲精帳號主頁及9.3萬粉絲數據"/></div></article><article className="more-project-card image-left"><div className="more-project-image"><img src="/images/kai-first.jpg" alt="王維鍇 Kai 帳號發佈的第一個作品"/></div><div className="more-project-copy"><span>音樂人冷啟動</span><h3>王維鍇 Kai</h3><p>負責帳號冷啟動、內容定位、內容策劃及影片拍攝，粉絲達到階段目標後由藝人自主營運，帳號後續成長至120萬粉絲。</p><a className="case-detail-link" href="/cases/kai">案例詳情 <ArrowIcon/></a></div></article></div></div>
+    </section>
+
+    <section className="capabilities" id="capabilities"><div className="capabilities-title"><p className="eyebrow">05 / Capability</p><h2>策略 製作 增長<br/>和 AI 形成閉環</h2></div><div className="capability-grid"><article><span>01</span><h3>Content Strategy</h3><p>內容定位、創意策劃、IP規劃、系列內容設計、內容策略制定</p></article><article><span>02</span><h3>Content Production</h3><p>影片拍攝、導演執行、後期剪輯、航拍、全流程內容製作</p></article><article><span>03</span><h3>Creator Growth</h3><p>創作者帳號孵化、短影片營運、內容增長、直播營運、商業合作</p></article><article><span>04</span><h3>AI Workflow</h3><p>ChatGPT、OpenAI Codex、AI輔助創作、AI內容工作流、效率優化</p></article></div></section>
+
+    <section className="profile-details"><article><p className="eyebrow">Education</p><h3>暨南大學</h3><p>廣告學本科</p></article><article><p className="eyebrow">Language & Culture</p><h3>粵語 · 普通話 · 英語</h3><p>粵語（母語）｜普通話（流利）｜英語（工作交流）<br/>熟悉香港及內地互聯網內容生態。</p></article><article><p className="eyebrow">AI & Tools</p><h3>全流程創作工具</h3><p>ChatGPT｜OpenAI Codex｜CapCut｜Premiere Pro｜After Effects｜DaVinci Resolve｜Photoshop｜Lightroom｜DJI航拍系統</p></article></section>
+
+    <footer className="contact" id="contact"><p className="contact-kicker">LET&apos;S MAKE CONTENT MATTER</p><h2>讓創意真正<br/>產生傳播</h2><div className="contact-links"><a href="mailto:autaksing0117@gmail.com"><MailIcon/><span>autaksing0117@gmail.com</span></a><a href="tel:+85266234042"><PhoneIcon/><span>+852 6623 4042</span></a></div><div className="contact-foot"><span>歐德星 · AU TAK SING</span><span>香港永久居民</span><span>© 2026</span></div></footer>
+  </main>;
+}

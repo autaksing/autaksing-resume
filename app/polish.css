@@ -1,0 +1,38 @@
+/* Loaded after globals.css so the editorial navigation and gallery rules win. */
+@media(min-width:821px){
+  .editorial-gallery.count-3:not(:has(.landscape)){
+    grid-template-columns:1.12fr .94fr .94fr;
+  }
+  .editorial-gallery.count-3:not(:has(.landscape)) figure{
+    aspect-ratio:auto;
+    min-height:570px;
+  }
+}
+
+.case-page-footer.case-navigation{
+  min-height:180px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:32px;
+  align-items:center;
+  padding-top:42px;
+  padding-bottom:42px;
+}
+.case-page-footer.case-navigation>div:last-child{text-align:right}
+.case-page-footer.case-navigation .case-nav-link{display:inline-flex;flex-direction:column;gap:10px;color:#fff;max-width:100%}
+.case-page-footer.case-navigation .case-nav-link small{display:block;font-family:var(--font-geist-mono),monospace;color:#9f8b74;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.case-page-footer.case-navigation .case-nav-link strong{display:block;font-size:clamp(17px,1.65vw,25px);letter-spacing:-.025em;white-space:nowrap;transition:color .25s ease,transform .3s ease}
+.case-page-footer.case-navigation .case-nav-link:hover strong{color:var(--yellow)}
+.case-page-footer.case-navigation .case-nav-link.previous:hover strong{transform:translateX(-5px)}
+.case-page-footer.case-navigation .case-nav-link.next:hover strong{transform:translateX(5px)}
+.case-page-footer.case-navigation .all-cases-link{color:var(--yellow);border:1px solid rgba(246,202,72,.4);padding:13px 18px;white-space:nowrap;transition:background-color .25s ease,color .25s ease}
+.case-page-footer.case-navigation .all-cases-link:hover{background:var(--yellow);color:var(--ink)}
+
+@media(max-width:820px){
+  .case-page-footer.case-navigation{min-height:142px;grid-template-columns:1fr 1fr;gap:22px;padding:28px 24px}
+  .case-page-footer.case-navigation .all-cases-link{grid-column:1/-1;grid-row:1;text-align:center;justify-self:center;padding:10px 14px}
+  .case-page-footer.case-navigation>div{grid-row:2;min-width:0}
+  .case-page-footer.case-navigation>div:last-child{text-align:right}
+  .case-page-footer.case-navigation .case-nav-link strong{font-size:14px;white-space:normal;line-height:1.35}
+  .case-page-footer.case-navigation .case-nav-link small{font-size:8px}
+}
