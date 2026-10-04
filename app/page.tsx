@@ -1,3 +1,5 @@
+import VideoShowcase from "./VideoShowcase";
+
 const metrics = [
   ["10年+", "內容創作及影視製作經驗"], ["88.6萬", "孵化帳號最高粉絲規模"],
   ["2000萬+", "單條作品最高播放量"], ["1000萬+", "孵化帳號全平台累計點讚"],
@@ -22,7 +24,7 @@ function PhoneIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d=
 
 export default function Home() {
   return <main>
-    <nav className="nav" aria-label="主導航"><a className="brand" href="#top" aria-label="返回頂部">AUTAKSING<span>.</span></a><div className="nav-links"><a href="#about">關於</a><a href="#experience">經歷</a><a href="#cases">案例</a><a className="nav-contact" href="mailto:autaksing0117@gmail.com">聯繫我 <ArrowIcon/></a></div></nav>
+    <nav className="nav" aria-label="主導航"><a className="brand" href="#top" aria-label="返回頂部">AUTAKSING<span>.</span></a><div className="nav-links"><a href="#about">關於</a><a href="#experience">經歷</a><a href="#cases">案例</a><a href="#videos">影片</a><a className="nav-contact" href="mailto:autaksing0117@gmail.com">聯繫我 <ArrowIcon/></a></div></nav>
 
     <section className="hero" id="top"><div className="hero-index" aria-hidden="true">01</div><div className="hero-orbit" aria-hidden="true"><span>CONTENT</span><span>CREATOR</span><span>GROWTH</span></div><div className="hero-name"><p className="eyebrow light hero-discipline">Content Strategy · Production<br/>Creator Growth</p><h1>歐德星</h1><p className="roman">AU TAK SING</p></div><div className="hero-copy"><p className="hero-lead">把創意變成真正<br/>有傳播力的內容</p><p className="hero-roles">內容策略 <i/> 內容製作 <i/> 創作者孵化</p><div className="hero-actions"><a href="#cases">查看代表案例 <span>↓</span></a><div className="hero-contacts"><a href="mailto:autaksing0117@gmail.com"><MailIcon/><span>autaksing0117@gmail.com</span></a><a href="tel:+85256607600"><PhoneIcon/><span>+852 56607600</span></a></div></div></div><p className="hero-foot">香港永久居民 · 粵語 / 普通話 / 英語</p></section>
 
@@ -37,7 +39,9 @@ export default function Home() {
       <div className="more-projects"><p className="eyebrow">More Creator Projects</p><div className="more-project-grid"><article className="more-project-card image-right"><div className="more-project-copy"><span>劇情帳號</span><h3>福福是個戲精</h3><p>負責帳號定位、內容策劃、影片拍攝、後期製作，最終9.3萬粉絲。</p><a className="case-detail-link" href="/cases/fufu">案例詳情 <ArrowIcon/></a></div><div className="more-project-image"><img src="/images/fuma-account.jpg" alt="福福是個戲精帳號主頁及9.3萬粉絲數據"/></div></article><article className="more-project-card image-left"><div className="more-project-image"><img src="/images/kai-first.jpg" alt="王維鍇 Kai 帳號發佈的第一個作品"/></div><div className="more-project-copy"><span>音樂人冷啟動</span><h3>王維鍇 Kai</h3><p>負責帳號冷啟動、內容定位、內容策劃及影片拍攝，粉絲達到階段目標後由藝人自主營運，帳號後續成長至120萬粉絲。</p><a className="case-detail-link" href="/cases/kai">案例詳情 <ArrowIcon/></a></div></article></div></div>
     </section>
 
-    <section className="capabilities" id="capabilities"><div className="capabilities-title"><p className="eyebrow">05 / Capability</p><h2>策略 製作 增長<br/>和 AI 形成閉環</h2></div><div className="capability-grid"><article><span>01</span><h3>Content Strategy</h3><p>內容定位、創意策劃、IP規劃、系列內容設計、內容策略制定</p></article><article><span>02</span><h3>Content Production</h3><p>影片拍攝、導演執行、後期剪輯、航拍、全流程內容製作</p></article><article><span>03</span><h3>Creator Growth</h3><p>創作者帳號孵化、短影片營運、內容增長、直播營運、商業合作</p></article><article><span>04</span><h3>AI Workflow</h3><p>ChatGPT、OpenAI Codex、AI輔助創作、AI內容工作流、效率優化</p></article></div></section>
+    <VideoShowcase />
+
+    <section className="capabilities" id="capabilities"><div className="capabilities-title"><p className="eyebrow">06 / Capability</p><h2>策略 製作 增長<br/>和 AI 形成閉環</h2></div><div className="capability-grid"><article><span>01</span><h3>Content Strategy</h3><p>內容定位、創意策劃、IP規劃、系列內容設計、內容策略制定</p></article><article><span>02</span><h3>Content Production</h3><p>影片拍攝、導演執行、後期剪輯、航拍、全流程內容製作</p></article><article><span>03</span><h3>Creator Growth</h3><p>創作者帳號孵化、短影片營運、內容增長、直播營運、商業合作</p></article><article><span>04</span><h3>AI Workflow</h3><p>ChatGPT、OpenAI Codex、AI輔助創作、AI內容工作流、效率優化</p></article></div></section>
 
     <section className="profile-details"><article><p className="eyebrow">Education</p><h3>暨南大學</h3><p>廣告學本科</p></article><article><p className="eyebrow">Language & Culture</p><h3>粵語 · 普通話 · 英語</h3><p>粵語（母語）｜普通話（流利）｜英語（工作交流）<br/>熟悉香港及內地互聯網內容生態。</p></article><article><p className="eyebrow">AI & Tools</p><h3>全流程創作工具</h3><p>ChatGPT｜OpenAI Codex｜CapCut｜Premiere Pro｜After Effects｜DaVinci Resolve｜Photoshop｜Lightroom｜DJI航拍系統</p></article></section>
 

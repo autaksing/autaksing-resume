@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./polish.css";
+import "./videos.css";
 import EditorialMotion from "./EditorialMotion";
 
 export const metadata: Metadata = {
