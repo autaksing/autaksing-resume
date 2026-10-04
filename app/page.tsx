@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HomeNavigation from "./HomeNavigation";
+import HeroFilm from "./HeroFilm";
 import VideoShowcase from "./VideoShowcase";
 import "./home.css";
 
@@ -29,16 +30,12 @@ export default function Home() {
       <HomeNavigation />
 
       <section className="home-hero" id="top" aria-labelledby="hero-title">
-        <div className="home-hero-copy">
-          <p className="home-kicker">AU TAK SING</p>
-          <h1 id="hero-title">歐德星<span>讓想法成為作品。</span></h1>
-          <p className="home-hero-intro">內容運營、拍攝剪輯、AI 與設計。<br />從策劃、製作到呈現，完成每一段創作。</p>
-          <a className="home-primary-link" href="#areas">瀏覽作品 <span aria-hidden="true">↗</span></a>
-        </div>
-        <figure className="home-hero-portrait">
-          <Image src="/images/profile-hero.jpg" alt="歐德星個人肖像" width={900} height={1124} priority unoptimized sizes="(max-width: 767px) 78vw, 42vw" />
-        </figure>
+        <div className="home-hero-topline"><p>歐德星 / AU TAK SING</p><p>FILM · OPERATIONS · AI · DESIGN</p></div>
+        <h1 id="hero-title">REALITY IS<span>BEING EDITED.</span></h1>
+        <HeroFilm />
+        <div className="home-hero-bottom"><p>用影像、內容與設計，<br />讓想法成為值得被看見的作品。</p><a href="#areas">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>
       </section>
+      <header className="home-selected home-wrap"><p>作品與創作方向</p><h2>SELECTED<br />WORK.</h2></header>
 
       <nav className="home-directions home-wrap" id="areas" aria-label="四個創作板塊">
         <span id="capabilities" className="home-anchor" aria-hidden="true" />
@@ -48,10 +45,21 @@ export default function Home() {
         <a href="#design"><strong>設計</strong><span>Visual Design</span><i aria-hidden="true">↗</i></a>
       </nav>
 
+      <section className="home-section home-production" id="production" aria-labelledby="production-title">
+        <div className="home-wrap">
+          <header className="home-section-heading">
+            <h2 id="production-title">拍攝剪輯<span>Film & Editing</span></h2>
+            <p>活動宣傳、現場記錄與內容影片，從拍攝執行到後期剪輯，完成影像製作。</p>
+          </header>
+          <ul className="home-production-skills" aria-label="影像製作能力"><li>創意策劃</li><li>導演與拍攝</li><li>剪輯與調色</li><li>後期包裝</li></ul>
+          <VideoShowcase />
+        </div>
+      </section>
+
       <section className="home-section home-wrap home-operations" id="operations" aria-labelledby="operations-title">
         <span id="cases" className="home-anchor" aria-hidden="true" />
         <header className="home-section-heading">
-          <h2 id="operations-title">運營<span>讓內容被看見，也被記住。</span></h2>
+          <h2 id="operations-title">運營<span>Creator Growth & Content</span></h2>
           <p>從內容定位到帳號孵化，讓一次創作機會，成為能持續經營的創作者品牌。</p>
         </header>
         <div className="home-operation-results" aria-label="內容運營成績">
@@ -72,19 +80,8 @@ export default function Home() {
         <div className="home-more-projects"><p>更多創作者項目</p><Link href="/cases/fufu">福福是個戲精 <span aria-hidden="true">↗</span></Link><Link href="/cases/kai">王維鍇 Kai <span aria-hidden="true">↗</span></Link></div>
       </section>
 
-      <section className="home-section home-production" id="production" aria-labelledby="production-title">
-        <div className="home-wrap">
-          <header className="home-section-heading">
-            <h2 id="production-title">拍攝剪輯<span>用鏡頭，把故事說清楚。</span></h2>
-            <p>活動宣傳、現場記錄與內容影片，從拍攝執行到後期剪輯，完成影像製作。</p>
-          </header>
-          <ul className="home-production-skills" aria-label="影像製作能力"><li>創意策劃</li><li>導演與拍攝</li><li>剪輯與調色</li><li>後期包裝</li></ul>
-          <VideoShowcase />
-        </div>
-      </section>
-
       <section className="home-section home-wrap home-ai" id="ai" aria-labelledby="ai-title">
-        <header className="home-section-heading"><h2 id="ai-title">AI<span>讓創作，多一種可能。</span></h2><p>把 AI 帶進內容、影像與工具製作，持續探索更有效率的創作方式。</p></header>
+        <header className="home-section-heading"><h2 id="ai-title">AI<span>Creative Experiments</span></h2><p>把 AI 帶進內容、影像與工具製作，持續探索更有效率的創作方式。</p></header>
         <div className="home-ai-layout">
           <figure className="home-ai-image"><Image src="/images/ai-creative-concept.jpg" alt="玻璃、紙張與橙色膠片組成的 AI 創作概念圖" width={1536} height={1024} unoptimized sizes="(max-width: 767px) 90vw, 48vw" /><figcaption>AI 生成概念圖，作為創作方向示意。</figcaption></figure>
           <div className="home-ai-workflows">{aiWorkflows.map((item) => <article key={item.title}><h3>{item.title}</h3><p>{item.body}</p></article>)}<p className="home-tools">ChatGPT / OpenAI Codex / AI 輔助創作</p></div>
@@ -93,7 +90,7 @@ export default function Home() {
 
       <section className="home-section home-design" id="design" aria-labelledby="design-title">
         <div className="home-wrap">
-          <header className="home-section-heading"><h2 id="design-title">設計<span>讓內容，有自己的樣子。</span></h2><p>把訊息整理成清楚的視覺，連接品牌、影像與數位介面。</p></header>
+          <header className="home-section-heading"><h2 id="design-title">設計<span>Visual & Digital Design</span></h2><p>把訊息整理成清楚的視覺，連接品牌、影像與數位介面。</p></header>
           <div className="home-design-layout">
             <div className="home-design-specimen" role="img" aria-label="AUTAKSING 本站視覺設計示例"><p>本站視覺系統</p><strong>AU TAK<br />SING<span>.</span></strong><div className="home-design-swatches" role="img" aria-label="橙色、深色及米白色的本站品牌配色"><span /><span /><span /></div></div>
             <div className="home-design-services"><article><h3>品牌與內容視覺</h3><p>整理字體、配色與版面，建立一致的內容識別。</p></article><article><h3>影像與宣傳物料</h3><p>封面、宣傳版面與影像包裝，讓訊息更清楚地呈現。</p></article><article><h3>網站與數位介面</h3><p>把內容結構與視覺表達整合，讓訪客更容易找到重點。</p></article><p className="home-tools">Photoshop / After Effects / 視覺排版</p></div>
