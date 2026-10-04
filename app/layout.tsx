@@ -3,6 +3,7 @@ import "./globals.css";
 import "./polish.css";
 import "./videos.css";
 import EditorialMotion from "./EditorialMotion";
+import LanguageSwitch from "./LanguageSwitch";
 
 export const metadata: Metadata = {
   title: "歐德星｜內容策略、內容製作與創作者增長",
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="zh-Hant">
       <body>
         <EditorialMotion />
+        <LanguageSwitch />
         {children}
       </body>
     </html>

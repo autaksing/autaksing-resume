@@ -1,111 +1,38 @@
-import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import HomeNavigation from "./HomeNavigation";
-import HeroFilm from "./HeroFilm";
-import VideoShowcase from "./VideoShowcase";
-import "./home.css";
+import "./portfolio-directions.css";
 
-export const metadata: Metadata = {
-  title: "歐德星｜內容運營、拍攝剪輯、AI 與設計",
-  description: "歐德星的個人作品集。探索內容運營與創作者孵化、影片拍攝與後期剪輯、AI 創作工作流及視覺設計。",
-};
-
-const creatorProjects = [
-  { href: "/cases/anzai", name: "「單身狗」安仔", category: "原創人物 IP", description: "從人物定位、原創作品到持續營運，建立具有辨識度的內容體系。", image: "/images/home-anzai.jpg", imageAlt: "單身狗安仔代表作品及傳播數據", result: "1120萬+", resultLabel: "單條最高播放量" },
-  { href: "/cases/tang", name: "湯不唱", category: "音樂帳號孵化", description: "參與帳號從零孵化，以音樂內容與露台演唱會連接觀眾。", image: "/images/home-tang.jpg", imageAlt: "湯不唱露台演唱會現場", result: "0 → 70萬", resultLabel: "三個月粉絲增長" },
-  { href: "/cases/chen", name: "陳柏曦", category: "藝人品牌打造", description: "統一港風影像、音樂內容與街頭直播，塑造藝人品牌。", image: "/images/home-chen.jpg", imageAlt: "陳柏曦舞台演出", result: "1萬+", resultLabel: "直播最高同時在線" },
+const directions = [
+  { title: "內容運營", english: "CONTENT OPERATIONS", description: "內容定位 · 創作者孵化 · 帳號增長", href: "/ip-operations" },
+  { title: "影像製作", english: "FILM PRODUCTION", description: "拍攝剪輯 · 後期製作 · AI生成影像", href: "/film-production" },
+  { title: "AI應用", english: "AI APPLICATIONS", description: "自動化工作流 · AI工具使用", href: "/ai-creation" },
+  { title: "視覺設計", english: "VISUAL DESIGN", description: "品牌視覺 · 宣傳版面 · 內容包裝", href: "/graphic-design" },
 ];
 
-const aiWorkflows = [
-  { title: "創意與內容", body: "用 AI 輔助資料整理、內容構思、腳本發想與創作方向探索。" },
-  { title: "影像與視覺", body: "探索生成式影像，結合拍攝、剪輯與設計，拓展視覺表達。" },
-  { title: "工具與工作流", body: "運用 ChatGPT 與 Codex，嘗試把重複工作整理成可執行的流程。" },
+const experiences = [
+  {year:"2013—2014",company:"賽鉑互動",note:"廣東省廣告集團子公司 · 本土4A",role:"新媒體策劃",detail:"負責新媒體內容策劃、品牌傳播創意策劃、全案項目執行與落地。"},
+  {year:"2014—2016",company:"歐氏兄弟影視工作室",note:"聯合創辦",role:"聯合創始人",detail:"負責企業宣傳片拍攝、創意短片策劃與製作、活動影片拍攝與製作、客戶項目溝通與執行。"},
+  {year:"2016–2026",company:"聲輝傳媒",note:"影視工作室 2.0",role:"聯合創始人 · 內容負責人",detail:"聚焦原創內容、創作者IP孵化及品牌內容營銷；負責內容與創意方向、導演與拍攝、後期包裝、帳號孵化、短影片與直播營運、項目統籌及客戶溝通。"},
 ];
+
+function ArrowIcon(){return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8"/></svg>}
+function MailIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m4 7 8 6 8-6"/></svg>}
+function PhoneIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.3 3.8 4.7 6.4c-.8.8.1 4.1 3.5 7.5s6.7 4.3 7.5 3.5l2.6-2.6-3.4-2.2-1.6 1.6c-1.3-.5-3-2.2-3.5-3.5l1.6-1.6-2.1-3.3Z"/></svg>}
 
 export default function Home() {
-  return (
-    <main className="home-page">
-      <a className="home-skip-link" href="#areas">跳至作品板塊</a>
-      <HomeNavigation />
+  return <main>
+    <nav className="nav" aria-label="主導航"><a className="brand" href="#top" aria-label="返回頂部">AUTAKSING<span>.</span></a><div className="nav-links"><a href="#about">關於</a><a href="#experience">經歷</a><Link href="/ip-operations">內容運營</Link><Link href="/film-production">影像製作</Link><a className="nav-contact" href="mailto:autaksing0117@gmail.com">聯繫我 <ArrowIcon/></a></div></nav>
 
-      <section className="home-hero" id="top" aria-labelledby="hero-title">
-        <div className="home-hero-topline"><p>歐德星 / AU TAK SING</p><p>FILM · OPERATIONS · AI · DESIGN</p></div>
-        <h1 id="hero-title">REALITY IS<span>BEING EDITED.</span></h1>
-        <HeroFilm />
-        <div className="home-hero-bottom"><p>用影像、內容與設計，<br />讓想法成為值得被看見的作品。</p><a href="#areas">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>
-      </section>
-      <header className="home-selected home-wrap"><p>作品與創作方向</p><h2>SELECTED<br />WORK.</h2></header>
+    <section className="hero" id="top"><div className="hero-index" aria-hidden="true">01</div><div className="hero-orbit" aria-hidden="true"><span>CONTENT</span><span>CREATOR</span><span>GROWTH</span></div><div className="hero-name"><p className="eyebrow light hero-discipline">Content Strategy · Production<br/>Creator Growth</p><h1>歐德星</h1><p className="roman">AU TAK SING</p></div><div className="hero-copy"><p className="hero-lead">把創意變成真正<br/>有傳播力的內容</p><p className="hero-roles">內容策略 <i/> 內容製作 <i/> 創作者孵化</p><div className="hero-actions"><Link href="/ip-operations">查看代表案例 <span>↗</span></Link><div className="hero-contacts"><a href="mailto:autaksing0117@gmail.com"><MailIcon/><span>autaksing0117@gmail.com</span></a><a href="tel:+85256607600"><PhoneIcon/><span>+852 56607600</span></a></div></div></div></section>
 
-      <nav className="home-directions home-wrap" id="areas" aria-label="四個創作板塊">
-        <span id="capabilities" className="home-anchor" aria-hidden="true" />
-        <a href="#operations"><strong>運營</strong><span>Creator Growth</span><i aria-hidden="true">↗</i></a>
-        <a href="#production"><strong>拍攝剪輯</strong><span>Film & Editing</span><i aria-hidden="true">↗</i></a>
-        <a href="#ai"><strong>AI</strong><span>Creative Workflow</span><i aria-hidden="true">↗</i></a>
-        <a href="#design"><strong>設計</strong><span>Visual Design</span><i aria-hidden="true">↗</i></a>
-      </nav>
+    <section className="about" id="about"><div className="section-heading"><p className="eyebrow">02 / About</p><h2>不止製作內容<br/>更懂內容</h2><p className="heading-translation">Beyond content production<br/>I understand what makes content work</p></div><figure className="about-portrait"><img src="/images/profile-about.jpg" alt="歐德星個人形象照"/><figcaption>AU TAK SING · CONTENT CREATOR</figcaption></figure><div className="about-copy"><div className="about-paragraph"><span aria-hidden="true">1</span><p>擁有10年以上內容創作及影視製作經驗，長期參與原創IP打造、創作者帳號孵化及短影片內容營運，具備從內容定位、創意策劃、拍攝製作到帳號營運的完整經驗。</p></div><div className="about-paragraph"><span aria-hidden="true">2</span><p>曾參與打造多個具有代表性的原創人物IP及創作者帳號，覆蓋原創內容、劇情、音樂、直播等不同賽道，成功打造多個高傳播、高互動內容案例，並建立持續營運的內容體系。</p></div><div className="about-paragraph"><span aria-hidden="true">3</span><p>熟悉抖音、小紅書、微信視頻號、B站等內容生態，具備數據驅動的內容優化能力，同時持續關注AI在內容創作、營運效率及產品創新中的應用。</p></div></div></section>
 
-      <section className="home-section home-production" id="production" aria-labelledby="production-title">
-        <div className="home-wrap">
-          <header className="home-section-heading">
-            <h2 id="production-title">拍攝剪輯<span>Film & Editing</span></h2>
-            <p>活動宣傳、現場記錄與內容影片，從拍攝執行到後期剪輯，完成影像製作。</p>
-          </header>
-          <ul className="home-production-skills" aria-label="影像製作能力"><li>創意策劃</li><li>導演與拍攝</li><li>剪輯與調色</li><li>後期包裝</li></ul>
-          <VideoShowcase />
-        </div>
-      </section>
+    <nav id="directions" className="metrics portfolio-directions" aria-label="四個創作方面">{directions.map((item,index)=><Link className="metric direction-link" key={item.href} href={item.href}><span className="metric-no">0{index+1}</span><strong>{item.title}</strong><span className="direction-english" lang="en">{item.english}</span><p><span>{item.description.split(" · ").slice(0,item.href === "/ai-creation" ? 1 : 2).join(" · ")}</span><span>{item.description.split(" · ").slice(item.href === "/ai-creation" ? 1 : 2).join(" · ")}</span></p><span className="direction-arrow" aria-hidden="true">↗</span></Link>)}</nav>
+    <div className="marquee" aria-hidden="true"><div>BUILD CREATOR BRANDS · BUILD CREATOR BRANDS · BUILD CREATOR BRANDS ·</div></div>
 
-      <section className="home-section home-wrap home-operations" id="operations" aria-labelledby="operations-title">
-        <span id="cases" className="home-anchor" aria-hidden="true" />
-        <header className="home-section-heading">
-          <h2 id="operations-title">運營<span>Creator Growth & Content</span></h2>
-          <p>從內容定位到帳號孵化，讓一次創作機會，成為能持續經營的創作者品牌。</p>
-        </header>
-        <div className="home-operation-results" aria-label="內容運營成績">
-          <div><strong>88.6萬</strong><span>孵化帳號最高粉絲規模</span></div>
-          <div><strong>2000萬+</strong><span>單條作品最高播放量</span></div>
-          <div><strong>1000萬+</strong><span>孵化帳號全平台累計點讚</span></div>
-        </div>
-        <div className="home-project-list">
-          {creatorProjects.map((project) => (
-            <Link className="home-project" key={project.href} href={project.href}>
-              <div className="home-project-image"><Image src={project.image} alt={project.imageAlt} width={420} height={280} unoptimized sizes="(max-width: 767px) 40vw, 20vw" /></div>
-              <div className="home-project-copy"><p>{project.category}</p><h3>{project.name}</h3><p>{project.description}</p></div>
-              <div className="home-project-result"><strong>{project.result}</strong><span>{project.resultLabel}</span></div>
-              <span className="home-project-arrow" aria-hidden="true">↗</span>
-            </Link>
-          ))}
-        </div>
-        <div className="home-more-projects"><p>更多創作者項目</p><Link href="/cases/fufu">福福是個戲精 <span aria-hidden="true">↗</span></Link><Link href="/cases/kai">王維鍇 Kai <span aria-hidden="true">↗</span></Link></div>
-      </section>
+    <section className="experience" id="experience"><div className="experience-head"><p className="eyebrow light-on-dark">03 / Experience</p><h2>十餘年持續拓展<br/>內容工作的邊界</h2><p className="experience-intro">從廣告策劃到獨立製作再到內容負責人<br/>角色在變化但始終圍繞內容的傳播價值</p></div><div className="timeline">{experiences.map((item,index)=><article className="timeline-item" key={item.year}><span className="timeline-index">0{index+1}</span><p className="timeline-year">{item.year}</p><div><h3>{item.company}</h3><p className="timeline-note">{item.note}</p><p className="timeline-role">{item.role}</p><p className="timeline-detail">{item.detail}</p></div></article>)}</div></section>
 
-      <section className="home-section home-wrap home-ai" id="ai" aria-labelledby="ai-title">
-        <header className="home-section-heading"><h2 id="ai-title">AI<span>Creative Experiments</span></h2><p>把 AI 帶進內容、影像與工具製作，持續探索更有效率的創作方式。</p></header>
-        <div className="home-ai-layout">
-          <figure className="home-ai-image"><Image src="/images/ai-creative-concept.jpg" alt="玻璃、紙張與橙色膠片組成的 AI 創作概念圖" width={1536} height={1024} unoptimized sizes="(max-width: 767px) 90vw, 48vw" /><figcaption>AI 生成概念圖，作為創作方向示意。</figcaption></figure>
-          <div className="home-ai-workflows">{aiWorkflows.map((item) => <article key={item.title}><h3>{item.title}</h3><p>{item.body}</p></article>)}<p className="home-tools">ChatGPT / OpenAI Codex / AI 輔助創作</p></div>
-        </div>
-      </section>
+    <section className="profile-details"><article><p className="eyebrow">Education</p><h3>暨南大學</h3><p>廣告學本科</p></article><article><p className="eyebrow">Language & Culture</p><h3>粵語 · 普通話 · 英語</h3><p>粵語（母語）｜普通話（流利）｜英語（工作交流）<br/>香港永久居民，在內地工作多年，熟悉香港及內地互聯網內容生態。</p></article><article><p className="eyebrow">AI & Tools</p><h3>全流程創作工具</h3><p>ChatGPT｜OpenAI Codex｜CapCut｜Premiere Pro｜After Effects｜DaVinci Resolve｜Photoshop｜Lightroom｜DJI航拍系統</p></article></section>
 
-      <section className="home-section home-design" id="design" aria-labelledby="design-title">
-        <div className="home-wrap">
-          <header className="home-section-heading"><h2 id="design-title">設計<span>Visual & Digital Design</span></h2><p>把訊息整理成清楚的視覺，連接品牌、影像與數位介面。</p></header>
-          <div className="home-design-layout">
-            <div className="home-design-specimen" role="img" aria-label="AUTAKSING 本站視覺設計示例"><p>本站視覺系統</p><strong>AU TAK<br />SING<span>.</span></strong><div className="home-design-swatches" role="img" aria-label="橙色、深色及米白色的本站品牌配色"><span /><span /><span /></div></div>
-            <div className="home-design-services"><article><h3>品牌與內容視覺</h3><p>整理字體、配色與版面，建立一致的內容識別。</p></article><article><h3>影像與宣傳物料</h3><p>封面、宣傳版面與影像包裝，讓訊息更清楚地呈現。</p></article><article><h3>網站與數位介面</h3><p>把內容結構與視覺表達整合，讓訪客更容易找到重點。</p></article><p className="home-tools">Photoshop / After Effects / 視覺排版</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="home-section home-wrap home-about" id="about" aria-labelledby="about-title">
-        <h2 id="about-title">關於我</h2>
-        <div className="home-about-copy"><p>擁有 10 年以上內容創作及影視製作經驗，從廣告策劃、獨立製作到創作者孵化，持續拓展內容工作的邊界。</p><p>暨南大學廣告學本科，香港永久居民。粵語為母語，普通話流利，具備英語工作交流能力。</p>
-          <details className="home-experience" id="experience"><summary>工作經歷 <span aria-hidden="true">＋</span></summary><div><article><span>2013-2014</span><h3>賽鉑互動</h3><p>新媒體策劃。廣東省廣告集團子公司，負責內容策劃、品牌傳播創意與項目執行。</p></article><article><span>2014-2016</span><h3>歐氏兄弟影視工作室</h3><p>聯合創始人。參與企業宣傳片、創意短片及活動影片策劃與製作。</p></article><article><span>2016 至今</span><h3>聲輝傳媒</h3><p>聯合創始人、內容負責人。聚焦原創 IP、創作者孵化與品牌內容，參與導演拍攝、後期製作及營運。</p></article></div></details>
-        </div>
-      </section>
-
-      <footer className="home-footer" id="contact"><div className="home-wrap"><h2>一起做點<br />值得被看見的作品。</h2><a className="home-primary-link" href="mailto:autaksing0117@gmail.com">聯繫我 <span aria-hidden="true">↗</span></a><div className="home-footer-contacts"><a href="mailto:autaksing0117@gmail.com">autaksing0117@gmail.com</a><a href="tel:+85256607600">+852 56607600</a></div><div className="home-footer-bottom"><span>歐德星 / AU TAK SING</span><span>© 2026 AUTAKSING</span><a href="#top">返回頂部 ↑</a></div></div></footer>
-    </main>
-  );
+    <footer className="contact" id="contact"><p className="contact-kicker">LET&apos;S MAKE CONTENT MATTER</p><h2>讓創意真正<br/>產生傳播</h2><div className="contact-links"><a href="mailto:autaksing0117@gmail.com"><MailIcon/><span>autaksing0117@gmail.com</span></a><a href="tel:+85256607600"><PhoneIcon/><span>+852 56607600</span></a></div><div className="contact-foot"><span>歐德星 · AU TAK SING</span><span>香港永久居民</span><span>© 2026</span></div></footer>
+  </main>;
 }

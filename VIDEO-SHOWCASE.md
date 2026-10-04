@@ -1,8 +1,10 @@
 # Video showcase
 
+The current local draft keeps four portfolio entrances on the homepage and moves their content to `/ip-operations`, `/film-production`, `/ai-creation`, and `/graphic-design`. The Film Production page contains six works: two Xinxing Marathon videos, Shizhanhui promo, stone coffee machine promo, crab pot restaurant visit, and Nanyue Chunnuan job fair coverage. Titles and exact public R2 URLs are configured in `app/video-works.ts`. The three new vertical videos use `orientation: "portrait"` and 9:16 covers/players, in a separate three-column desktop gallery and centered mobile cards. Posters are real frames extracted from the supplied videos. Changes remain local until the user says to update.
+
 The homepage uses a black-and-white, media-led portfolio layout inspired by the O’shane Howard reference selected by the user. A large typographic Hero and muted video preview lead into Selected Work, followed by Filming & Editing, Operations, AI, and Design sections. Creator case studies are grouped under Operations, and the two Xinxing Marathon videos appear under Filming & Editing. Titles and exact public R2 URLs are configured in `app/video-works.ts`. Video posters are actual frames extracted from the supplied public videos.
 
-The promo URL ends in uppercase `.MP4`; the highlights URL ends in lowercase `.mp4`. Preserve these exact object names. Set an optional `poster` to add a cover image. Escape, the close button, and the backdrop dismiss the player and stop playback. Videos load metadata only when opened. Errors offer a direct public video link.
+The promo URL ends in uppercase `.MP4`; the highlights URL ends in lowercase `.mp4`. Preserve these exact object names. Set an optional `poster` to add a cover image. On the local draft, clicking a cover starts playback inline in the same card, with native controls and playsInline for mobile. No dialog or new-window playback links are used. Video sources mount only after a click. Starting another video pauses the previous one; playback errors show an inline retry button.
 
 Adding files to R2 does not automatically add new gallery entries; add them to `videoWorks`. The video section is published on the existing Cloudflare Worker `autaksing-resume`. The production homepage was checked for both exact video URLs and the section anchor.
 

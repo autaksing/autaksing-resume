@@ -1,66 +1,54 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { videoWorks, type VideoWork } from "./video-works";
 
-export default function VideoShowcase() {
-  const dialog = useRef<HTMLDialogElement>(null);
+function VideoCard({work}: {work:VideoWork}) {
   const player = useRef<HTMLVideoElement>(null);
-  const [selected, setSelected] = useState<VideoWork | null>(null);
+  const [started, setStarted] = useState(false);
   const [failed, setFailed] = useState(false);
 
-  function open(work: VideoWork) {
-    setSelected(work);
-    setFailed(false);
-    dialog.current?.showModal();
-  }
+  useEffect(() => {
+    if (started) {
+      player.current?.focus({preventScroll:true});
+      void player.current?.play().catch(() => { /* Native controls remain available if autoplay is blocked. */ });
+    }
+  }, [started]);
 
-  function close() {
-    player.current?.pause();
-    dialog.current?.close();
-    setSelected(null);
-    setFailed(false);
-  }
+  return <article className={`video-card${work.orientation === "portrait" ? " video-card-portrait" : ""}`}>
+    {work.src ? started ? <div className="video-cover video-inline">
+      <video ref={player} src={work.src} controls autoPlay playsInline preload="metadata" poster={work.poster} aria-label={work.title} tabIndex={0} onError={() => setFailed(true)} onPlaying={() => setFailed(false)}>
+        你的瀏覽器不支援影片播放。
+      </video>
+    </div> : <button className="video-cover" onClick={() => setStarted(true)} aria-label={`播放影片：${work.title}`}>
+      {work.poster ? <Image src={work.poster} alt="" width={work.orientation === "portrait" ? 540 : 1280} height={work.orientation === "portrait" ? 960 : 720} unoptimized sizes={work.orientation === "portrait" ? "(max-width: 820px) 280px, 28vw" : "(max-width: 820px) 90vw, 45vw"} /> : <span className="video-cover-title" aria-hidden="true">新興<br />馬拉松<small>{work.category}</small></span>}
+      <span className="video-play" aria-hidden="true">▶</span>
+    </button> : <div className="video-cover video-pending">
+      {work.poster && <Image src={work.poster} alt={`${work.title}項目封面`} width={1280} height={720} unoptimized />}
+      <span className="video-badge">影片即將上線</span>
+    </div>}
+    {failed && <div className="video-inline-error"><p role="alert">影片暫時無法播放，請稍後再試。</p><button type="button" onClick={() => {
+      setFailed(false);
+      player.current?.load();
+      void player.current?.play().catch(() => setFailed(true));
+    }}>重新播放</button></div>}
+    <div className="video-meta"><span>{work.category}</span></div>
+    <h3>{work.title}</h3>
+    <p className="video-description">{work.description}</p>
+    {work.caseHref && <Link className="video-case-link" href={work.caseHref}>了解項目 <span aria-hidden="true">↗</span></Link>}
+  </article>;
+}
 
-  return (
-    <section className="video-showcase" id="videos" aria-labelledby="videos-heading">
-      <header className="video-heading">
-        <h3 id="videos-heading">新興馬拉松</h3>
-        <p className="video-intro">同一場活動，兩種影像表達：宣傳片與現場記錄。</p>
-      </header>
-      <div className="video-grid">
-        {videoWorks.map((work) => (
-          <article className="video-card" key={work.id}>
-            {work.src ? (
-              <button className="video-cover" onClick={() => open(work)} aria-label={`播放影片：${work.title}`} aria-haspopup="dialog">
-                {work.poster ? <Image src={work.poster} alt="" width={1280} height={720} unoptimized sizes="(max-width: 767px) 90vw, 45vw" /> : <span className="video-cover-title" aria-hidden="true">新興<br />馬拉松<small>{work.category}</small></span>}
-                <span className="video-play" aria-hidden="true">▶</span>
-
-              </button>
-            ) : (
-              <div className="video-cover video-pending">
-                {work.poster && <Image src={work.poster} alt={`${work.title}項目封面`} width={1280} height={720} unoptimized />}
-                <span className="video-badge">影片即將上線</span>
-              </div>
-            )}
-            <div className="video-meta"><span>{work.category}</span></div>
-            <h3>{work.title}</h3>
-            <p className="video-description">{work.description}</p>
-            {work.caseHref ? <a className="video-case-link" href={work.caseHref}>了解項目 <span aria-hidden="true">↗</span></a> : <a className="video-case-link" href={work.src} target="_blank" rel="noopener noreferrer">在新視窗播放 <span aria-hidden="true">↗</span></a>}
-          </article>
-        ))}
-      </div>
-      <dialog ref={dialog} className="video-dialog" aria-labelledby="video-dialog-title" onCancel={close} onClose={close} onClick={(event) => { if (event.target === event.currentTarget) close(); }}>
-        {selected && <div className="video-dialog-content">
-          <header><div><p>{selected.category}</p><h3 id="video-dialog-title">{selected.title}</h3></div><button className="video-close" onClick={close} aria-label="關閉影片">✕</button></header>
-          <video ref={player} key={selected.id} controls playsInline preload="metadata" poster={selected.poster} onError={() => setFailed(true)}>
-            <source src={selected.src} type="video/mp4" />
-            你的瀏覽器不支援影片播放。
-          </video>
-          {failed && <p role="alert">影片暫時無法播放，請稍後再試。<a href={selected.src} target="_blank" rel="noopener noreferrer">在新視窗開啟影片 ↗</a></p>}
-        </div>}
-      </dialog>
-    </section>
-  );
+export default function VideoShowcase() {
+  const gallery = useRef<HTMLElement>(null);
+  return <section ref={gallery} className="video-showcase" id="videos" aria-labelledby="videos-heading" onPlayCapture={(event) => {
+    if (!(event.target instanceof HTMLVideoElement)) return;
+    gallery.current?.querySelectorAll("video").forEach((video) => { if (video !== event.target) video.pause(); });
+  }}>
+    <header className="video-heading"><h3 id="videos-heading">影像作品</h3><p className="video-intro">活動記錄、展會與產品宣傳，以及探店影像。</p></header>
+    <div className="video-grid">{videoWorks.filter(work => work.orientation !== "portrait").map(work => <VideoCard key={work.id} work={work} />)}</div>
+    <div className="video-grid video-grid-portrait">{videoWorks.filter(work => work.orientation === "portrait").map(work => <VideoCard key={work.id} work={work} />)}</div>
+  </section>;
 }
