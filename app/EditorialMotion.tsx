@@ -3,6 +3,12 @@
 import { useEffect } from "react";
 
 const revealSelector = [
+  ".home-section-heading",
+  ".home-project",
+  ".home-ai-layout",
+  ".home-design-layout",
+  ".home-about",
+  ".video-card",
   ".hero-name",
   ".hero-copy",
   ".section-heading",
@@ -62,52 +68,29 @@ export default function EditorialMotion() {
 
     revealItems.forEach((item) => observer.observe(item));
 
-    const nav = document.querySelector<HTMLElement>(".nav, .case-page-nav");
-    const progress = document.querySelector<HTMLElement>(".scroll-progress");
     const navLinks = Array.from(
-      document.querySelectorAll<HTMLAnchorElement>(".nav-links a[href^='#']"),
+      document.querySelectorAll<HTMLAnchorElement>(".home-nav-links a[href^='#'], .nav-links a[href^='#']"),
     );
-    const sections = navLinks
-      .map((link) => {
-        const id = link.getAttribute("href")?.slice(1);
-        return id ? document.getElementById(id) : null;
-      })
-      .filter((section): section is HTMLElement => Boolean(section));
-
-    let ticking = false;
-    const updateScrollState = () => {
-      const scrollTop = window.scrollY;
-      const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
-      const ratio = scrollRange > 0 ? Math.min(scrollTop / scrollRange, 1) : 0;
-
-      nav?.classList.toggle("is-scrolled", scrollTop > 24);
-      progress?.style.setProperty("--scroll-progress", String(ratio));
-
-      let activeId = sections[0]?.id;
-      sections.forEach((section) => {
-        if (section.getBoundingClientRect().top <= window.innerHeight * 0.34) {
-          activeId = section.id;
-        }
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          const active = link.getAttribute("href") === `#${entry.target.id}`;
+          link.classList.toggle("is-active", active);
+          if (active) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
       });
-      navLinks.forEach((link) => {
-        link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
-      });
-
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(updateScrollState);
-    };
-
-    updateScrollState();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    }, { rootMargin: "-15% 0px -65% 0px", threshold: 0 });
+    navLinks.forEach((link) => {
+      const id = link.getAttribute("href")?.slice(1);
+      const section = id ? document.getElementById(id) : null;
+      if (section) sectionObserver.observe(section);
+    });
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
+      sectionObserver.disconnect();
       root.classList.remove("motion-ready");
     };
   }, []);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { videoWorks, type VideoWork } from "./video-works";
 
 export default function VideoShowcase() {
@@ -25,26 +26,25 @@ export default function VideoShowcase() {
   return (
     <section className="video-showcase" id="videos" aria-labelledby="videos-heading">
       <header className="video-heading">
-        <p className="eyebrow light-on-dark">05 / Selected Films</p>
-        <h2 id="videos-heading">讓作品<br />自己說話</h2>
-        <p className="video-intro">新興馬拉松 · 活動影像<br />從宣傳到現場記錄，用影像呈現活動的不同面貌。</p>
+        <h3 id="videos-heading">新興馬拉松</h3>
+        <p className="video-intro">同一場活動，兩種影像表達：宣傳片與現場記錄。</p>
       </header>
       <div className="video-grid">
-        {videoWorks.map((work, index) => (
+        {videoWorks.map((work) => (
           <article className="video-card" key={work.id}>
             {work.src ? (
               <button className="video-cover" onClick={() => open(work)} aria-label={`播放影片：${work.title}`} aria-haspopup="dialog">
-                {work.poster ? <img src={work.poster} alt="" loading="lazy" /> : <span className="video-cover-title" aria-hidden="true">新興<br />馬拉松<small>{work.category}</small></span>}
+                {work.poster ? <Image src={work.poster} alt="" width={1280} height={720} unoptimized sizes="(max-width: 767px) 90vw, 45vw" /> : <span className="video-cover-title" aria-hidden="true">新興<br />馬拉松<small>{work.category}</small></span>}
                 <span className="video-play" aria-hidden="true">▶</span>
-                <span className="video-badge">播放影片</span>
+
               </button>
             ) : (
               <div className="video-cover video-pending">
-                {work.poster && <img src={work.poster} alt={`${work.title}項目封面`} loading="lazy" />}
+                {work.poster && <Image src={work.poster} alt={`${work.title}項目封面`} width={1280} height={720} unoptimized />}
                 <span className="video-badge">影片即將上線</span>
               </div>
             )}
-            <div className="video-meta"><span>FILM {String(index + 1).padStart(2, "0")}</span><span>{work.category}</span></div>
+            <div className="video-meta"><span>{work.category}</span></div>
             <h3>{work.title}</h3>
             <p className="video-description">{work.description}</p>
             {work.caseHref ? <a className="video-case-link" href={work.caseHref}>了解項目 <span aria-hidden="true">↗</span></a> : <a className="video-case-link" href={work.src} target="_blank" rel="noopener noreferrer">在新視窗播放 <span aria-hidden="true">↗</span></a>}

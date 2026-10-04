@@ -11,6 +11,7 @@ export type VideoWork = {
 export const videoWorks: VideoWork[] = [
   {
     id: "xinxing-promo",
+    poster: "/images/xinxing-marathon-promo.jpg",
     title: "新興馬拉松宣傳",
     category: "活動宣傳片",
     description: "新興馬拉松活動宣傳影片。",
@@ -18,6 +19,7 @@ export const videoWorks: VideoWork[] = [
   },
   {
     id: "xinxing-highlights",
+    poster: "/images/xinxing-marathon-highlights.jpg",
     title: "新興馬拉松活動記錄",
     category: "活動記錄",
     description: "用影像記錄新興馬拉松的活動現場。",
