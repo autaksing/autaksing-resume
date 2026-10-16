@@ -23,7 +23,7 @@ function VideoCard({work}: {work:VideoWork}) {
         你的瀏覽器不支援影片播放。
       </video>
     </div> : <button className="video-cover" onClick={() => setStarted(true)} aria-label={`播放影片：${work.title}`}>
-      {work.poster ? <Image src={work.poster} alt="" width={work.orientation === "portrait" ? 540 : 1280} height={work.orientation === "portrait" ? 960 : 720} unoptimized sizes={work.orientation === "portrait" ? "(max-width: 820px) 280px, 28vw" : "(max-width: 820px) 90vw, 45vw"} /> : <span className="video-cover-title" aria-hidden="true">新興<br />馬拉松<small>{work.category}</small></span>}
+      {work.poster ? <Image src={work.poster} alt="" width={work.orientation === "portrait" ? 540 : 1280} height={work.orientation === "portrait" ? 960 : 720} unoptimized sizes={work.orientation === "portrait" ? "(max-width: 820px) 280px, 28vw" : "(max-width: 820px) 90vw, 45vw"} /> : <span className="video-cover-title" aria-hidden="true">{work.title}<small>{work.category}</small></span>}
       <span className="video-play" aria-hidden="true">▶</span>
     </button> : <div className="video-cover video-pending">
       {work.poster && <Image src={work.poster} alt={`${work.title}項目封面`} width={1280} height={720} unoptimized />}
@@ -43,12 +43,21 @@ function VideoCard({work}: {work:VideoWork}) {
 
 export default function VideoShowcase() {
   const gallery = useRef<HTMLElement>(null);
+  const [works, setWorks] = useState(videoWorks);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/videos", {cache:"no-store", signal:controller.signal})
+      .then(r => { if (!r.ok) throw new Error("Unavailable"); return r.json(); })
+      .then(data => { if (Array.isArray(data.items)) setWorks(data.items); })
+      .catch(() => { /* Keep the bundled portfolio available during a temporary API outage. */ });
+    return () => controller.abort();
+  }, []);
   return <section ref={gallery} className="video-showcase" id="videos" aria-labelledby="videos-heading" onPlayCapture={(event) => {
     if (!(event.target instanceof HTMLVideoElement)) return;
     gallery.current?.querySelectorAll("video").forEach((video) => { if (video !== event.target) video.pause(); });
   }}>
     <header className="video-heading"><h3 id="videos-heading">影像作品</h3><p className="video-intro">活動記錄、展會與產品宣傳，以及探店影像。</p></header>
-    <div className="video-grid">{videoWorks.filter(work => work.orientation !== "portrait").map(work => <VideoCard key={work.id} work={work} />)}</div>
-    <div className="video-grid video-grid-portrait">{videoWorks.filter(work => work.orientation === "portrait").map(work => <VideoCard key={work.id} work={work} />)}</div>
+    <div className="video-grid">{works.filter(work => work.orientation !== "portrait").map(work => <VideoCard key={work.id} work={work} />)}</div>
+    <div className="video-grid video-grid-portrait">{works.filter(work => work.orientation === "portrait").map(work => <VideoCard key={work.id} work={work} />)}</div>
   </section>;
 }

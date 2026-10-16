@@ -11,6 +11,15 @@ export type VideoWork = {
 
 export const videoWorks: VideoWork[] = [
   {
+    id: "dichan",
+    orientation: "landscape",
+    poster: "/images/dichan.jpg",
+    title: "現代居所 · 光影美學",
+    category: "空間影像",
+    description: "室內空間展示",
+    src: "https://video.autaksing.com/dichan.mp4",
+  },
+  {
     id: "xinxing-promo",
     poster: "/images/xinxing-marathon-promo.jpg",
     title: "新興馬拉松宣傳",

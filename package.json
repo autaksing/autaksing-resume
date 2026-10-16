@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint . --ignore-pattern .next",
     "build:cloudflare": "vite build && node scripts/prepare-cloudflare.mjs",
-    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy --config dist/server/wrangler.json --keep-vars"
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy --config dist/server/wrangler.json --keep-vars",
+    "preview:cloudflare": "node scripts/preview-cloudflare.mjs"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
+    "@cloudflare/workers-types": "5.20261014.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -39,5 +41,5 @@
     "wrangler": "^4.147.0"
   },
   "type": "module",
-  "displayName": "欧德星｜内容策略与创作者品牌"
+  "displayName": "\u6b27\u5fb7\u661f\uff5c\u5185\u5bb9\u7b56\u7565\u4e0e\u521b\u4f5c\u8005\u54c1\u724c"
 }

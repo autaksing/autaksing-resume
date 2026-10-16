@@ -5,3 +5,5 @@ dist/
 *.tsbuildinfo
 .env*
 .dev.vars*
+
+后台预览登录.txt
