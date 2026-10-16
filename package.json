@@ -36,10 +36,11 @@
     "react-server-dom-webpack": "19.2.6",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
+    "undici": "7.24.8",
     "vinext": "0.0.50",
     "vite": "8.0.13",
     "wrangler": "^4.147.0"
   },
   "type": "module",
-  "displayName": "\u6b27\u5fb7\u661f\uff5c\u5185\u5bb9\u7b56\u7565\u4e0e\u521b\u4f5c\u8005\u54c1\u724c"
+  "displayName": "欧德星｜内容策略与创作者品牌"
 }

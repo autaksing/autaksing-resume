@@ -1,6 +1,9 @@
 // One-time migration from the local emulator to the owner's production website.
 // Journal and credentials are kept exclusively in the ignored .wrangler directory.
 import { readFileSync, writeFileSync, chmodSync } from 'node:fs';
+import { Agent, fetch as httpFetch } from 'undici';
+const dispatcher=new Agent({allowH2:false,connections:4});
+const fetch=(url,options={})=>httpFetch(url,{...options,dispatcher});
 const source='http://localhost:8787',target='https://www.autaksing.com';
 const snapshot=JSON.parse(readFileSync('.wrangler/publish-snapshot.json','utf8'));
 const secrets=JSON.parse(readFileSync('.wrangler/production-secrets.json','utf8'));
@@ -33,17 +36,23 @@ for(const kind of ['videos','images'])for(const work of snapshot[kind].items){
   if(original.endsWith('.mp4')){
    if(!entry.token){Object.assign(entry,await(await request('/api/admin/uploads',{method:'POST',...body({size})})).json(),{parts:[]});persist();}
    const count=Math.ceil(size/entry.chunkSize);
-   for(let n=entry.parts.length+1;n<=count;n++){
-    const start=(n-1)*entry.chunkSize,end=Math.min(size,start+entry.chunkSize)-1;
-    const local=await fetch(localURL,{headers:{Range:`bytes=${start}-${end}`},signal:AbortSignal.timeout(120000)});
-    if(!local.ok)throw new Error('Local range read failed');const bytes=await local.arrayBuffer();if(bytes.byteLength!==end-start+1)throw new Error('Invalid local chunk size');
-    let part;
-    for(let attempt=0;attempt<5;attempt++){
-     try{part=await(await request(`/api/admin/upload/part?part=${n}`,{method:'PUT',headers:{'x-upload-token':entry.token},body:bytes})).json();break;}
-     catch(e){if(attempt===4)throw e;console.log(`Retrying part ${n}`);await new Promise(resolve=>setTimeout(resolve,(attempt+1)*1000));}
+   const completed=new Map(entry.parts.filter(Boolean).map(p=>[p.partNumber,p]));let nextPart=1;
+   async function sendParts(){
+    while(true){
+     const n=nextPart++;if(n>count)return;if(completed.has(n))continue;
+     const start=(n-1)*entry.chunkSize,end=Math.min(size,start+entry.chunkSize)-1;
+     const local=await fetch(localURL,{headers:{Range:`bytes=${start}-${end}`},signal:AbortSignal.timeout(120000)});
+     if(!local.ok)throw new Error('Local range read failed');const bytes=await local.arrayBuffer();if(bytes.byteLength!==end-start+1)throw new Error('Invalid local chunk size');
+     let part;
+     for(let attempt=0;attempt<5;attempt++){
+      try{part=await(await request(`/api/admin/upload/part?part=${n}`,{method:'PUT',headers:{'x-upload-token':entry.token},body:bytes})).json();break;}
+      catch(e){if(attempt===4)throw e;console.log(`Retrying part ${n}: ${e.message}`);await new Promise(resolve=>setTimeout(resolve,(attempt+1)*1000));}
+     }
+     completed.set(n,part);entry.parts=[...completed.values()].sort((a,b)=>a.partNumber-b.partNumber);persist();
+     if(completed.size===1||completed.size%5===0||completed.size===count)console.log(`Video upload ${Math.round(completed.size/count*100)}% (${completed.size}/${count})`);
     }
-    entry.parts.push(part);persist();if(n===1||n%5===0||n===count)console.log(`Video upload ${Math.round(n/count*100)}% (${n}/${count})`);
    }
+   await Promise.all(Array.from({length:4},()=>sendParts()));
    const result=await(await request('/api/admin/upload/complete',{method:'POST',headers:{'Content-Type':'application/json','x-upload-token':entry.token},body:JSON.stringify({parts:entry.parts})})).json();entry.url=result.src;
   }else{
    const local=await fetch(localURL);if(!local.ok)throw new Error('Missing image');
