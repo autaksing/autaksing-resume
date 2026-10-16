@@ -1,4 +1,4 @@
-import type { R2Bucket, Headers as WorkerHeaders } from "@cloudflare/workers-types";
+import type { R2Bucket, Headers as WorkerHeaders, ReadableStream as WorkerReadableStream } from "@cloudflare/workers-types";
 import type { ImageWork } from "../app/image-works";
 import { videoWorks, type VideoWork } from "../app/video-works";
 
@@ -10,6 +10,7 @@ const CATALOG = "website-data/videos.json";
 const MEDIA = "https://video.autaksing.com/";
 const CHUNK = 8 * 1024 * 1024;
 const MAX = 2 * 1024 * 1024 * 1024;
+declare const FixedLengthStream: {new(length:number):{readable:ReadableStream<Uint8Array>;writable:WritableStream<Uint8Array>}};
 const encoder = new TextEncoder();
 const local = (r:Request) => ["localhost", "127.0.0.1", "[::1]"].includes(new URL(r.url).hostname);
 const json = (data:unknown, status=200, headers:Record<string,string>={}) => Response.json(data, {status,headers:{"Cache-Control":"no-store", "X-Content-Type-Options":"nosniff", ...headers}});
@@ -30,6 +31,29 @@ async function readBody(r:Request,max:number) {
   const chunks:Uint8Array[]=[];let total=0;
   while(true){const {done,value}=await reader.read();if(done)break;total+=value.length;if(total>max){await reader.cancel();throw new Problem("文件或请求太大",413);}chunks.push(value);}
   const out=new Uint8Array(total);let offset=0;for(const c of chunks){out.set(c,offset);offset+=c.length;}return out;
+}
+async function uploadStream(r:Request,expected:number,first:boolean,upload:ReturnType<R2Bucket["resumeMultipartUpload"]>,part:number) {
+  const length=r.headers.get("content-length");
+  if(length!==null&&Number(length)!==expected)throw new Problem("分段不完整，请重试");
+  if(!r.body)throw new Problem("分段不完整，请重试");
+  let source:ReadableStream<Uint8Array>=r.body;
+  if(first){
+    const reader=source.getReader(),chunks:Uint8Array[]=[];let total=0;
+    while(total<8){const {value,done}=await reader.read();if(done){await reader.cancel();throw new Problem("文件不是有效的 MP4 视频");}chunks.push(value);total+=value.length;}
+    const header=new Uint8Array(8);let offset=0;
+    for(const chunk of chunks){const take=Math.min(chunk.length,8-offset);header.set(chunk.subarray(0,take),offset);offset+=take;if(offset===8)break;}
+    if(new TextDecoder().decode(header.subarray(4,8))!=="ftyp"){await reader.cancel();throw new Problem("文件不是有效的 MP4 视频");}
+    let index=0;
+    source=new ReadableStream<Uint8Array>({
+      async pull(controller){if(index<chunks.length){controller.enqueue(chunks[index++]);return;}const next=await reader.read();if(next.done)controller.close();else controller.enqueue(next.value);},
+      cancel(reason){return reader.cancel(reason);},
+    });
+  }
+  // Native fixed-length streams bound the size without buffering 8 MiB per request.
+  const fixed=new FixedLengthStream(expected);
+  const piping=source.pipeTo(fixed.writable);
+  const [result]=await Promise.all([upload.uploadPart(part,fixed.readable as unknown as WorkerReadableStream),piping]);
+  return result;
 }
 async function body(r:Request) {try{return JSON.parse(new TextDecoder().decode(await readBody(r,256*1024)));}catch(e){if(e instanceof Problem)throw e;throw new Problem("请求格式错误");}}
 async function catalog(bucket:R2Bucket) {const object=await bucket.get(CATALOG);return object?{items:await object.json<ManagedVideo[]>(),version:object.etag}:{items:videoWorks.map(v=>({...v,visible:true})),version:"new"};}
@@ -156,9 +180,8 @@ export async function videoApi(r:Request,env:Env):Promise<Response|null> {
       const upload=env.VIDEOS.resumeMultipartUpload(cap.key,cap.uploadId),count=Math.ceil(cap.size/CHUNK);
       if(path==="/api/admin/upload/part"&&r.method==="PUT") {
         const n=Number(url.searchParams.get("part"));if(!Number.isInteger(n)||n<1||n>count)throw new Problem("分段编号无效");
-        const bytes=await readBody(r,CHUNK),expected=n===count?cap.size-(count-1)*CHUNK:CHUNK;if(bytes.length!==expected)throw new Problem("分段不完整，请重试");
-        if(n===1&&new TextDecoder().decode(bytes.slice(4,8))!=="ftyp")throw new Problem("文件不是有效的 MP4 视频");
-        return json(await upload.uploadPart(n,bytes));
+        const expected=n===count?cap.size-(count-1)*CHUNK:CHUNK;
+        return json(await uploadStream(r,expected,n===1,upload,n));
       }
       if(path==="/api/admin/upload/complete"&&r.method==="POST") {
         const d=await body(r);if(!Array.isArray(d.parts)||d.parts.length!==count||d.parts.some((p:{partNumber:number;etag:string},i:number)=>p.partNumber!==i+1||typeof p.etag!=="string"))throw new Problem("上传分段不完整");
